@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Life</title>
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+  <body>
+    <div class="wraper" id="app">
+      <div class="container">
+        <div class="line _top">
+          <div class="line_item" v-for="(row, index) in matrix[0]">
+            {{index + 1}}
+          </div>
+        </div>
+        <div class="line _side">
+          <div class="line_item" v-for="(row, index) in matrix">
+            {{index + 1}}
+          </div>
+        </div>
+        <div class="field" @click="hundlerEditGame">
+
+          <div class="row" v-for="row in matrix">
+            <div class="cell"
+                 v-bind:class="{ active: cell, disactive: !cell }"
+                 v-for="cell in row">
+            </div>
+          </div>
+        </div>
+      </div>
+      <fieldset class="controls">
+        <label>
+          <span>Зупинити</span>
+          <input type="checkbox"
+                 name="stop"
+                 checked
+                 @change="hundlerStop">
+        </label>
+        <div id="for_disable"
+             v-bind:class="{ disable: disableFields }">
+          <label>
+            <span>Тип поля</span>
+            <input type="checkbox" name="unlim"
+                   v-bind="{ readonly: disableFields }">
+          </label>
+          <label>
+            <span>Ширина</span>
+            <input type="number"
+                   name="width"
+                   v-bind:value="width"
+                   v-bind="{ readonly: disableFields }"
+                   v-on:change="hundlerChangeWidth">
+          </label>
+          <label>
+            <span>Висота</span>
+            <input type="number"
+                   name="height"
+                   v-bind:value="height"
+                   v-bind="{ readonly: disableFields }"
+                   v-on:change="hundlerChangeHeight">
+          </label>
+
+          <label>
+            <span>Один крок</span>
+            <input type="button"
+                   name="one_step"
+                   value="+1"
+                   v-on:click="hundlerOneStep">
+          </label>
+
+          <!-- <label>
+            <span>Вибрати патерн</span>
+            <select type="button"
+                   name="one_step"
+                   @change="hundlerPatern">
+              <option></
+            </select>
+          </label> -->
+
+        </div>
+      </fieldset>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script type="text/javascript" src="app.js"></script>
+  </body>
+</html>

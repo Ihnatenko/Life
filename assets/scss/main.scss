@@ -1,0 +1,111 @@
+
+
+body {
+  margin: 0;
+}
+
+
+.field {
+  font-size: 0;
+  width: auto;
+  height: auto;
+}
+
+.row {
+  width: auto;
+  white-space: nowrap;
+
+  .cell {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border: 1px solid black;
+
+    &.active {
+      background-color: black;
+    }
+
+    &.disactive {
+      background-color: white;
+    }
+  }
+}
+
+.field {
+  position: relative;
+  top:  12px;
+  left: 12px;
+}
+
+.wraper {
+  display: flex;
+  overflow: hidden;
+
+  .controls {
+    width: 150px;
+    flex: 0 0 auto;
+    align-self: flex-start;
+
+    #for_disable {
+      position: relative;
+
+      &.disable::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width:  100%;
+        height: 100%;
+        display: block;
+        z-index: 1;
+        background-color: white;
+        opacity: 0.5;
+      }
+    }
+
+
+    label {
+      display: block;
+      margin-bottom: 40px;
+    }
+  }
+
+  .container {
+    flex: 1 0;
+    overflow: auto;
+    height: 100vh;
+  }
+}
+
+.line {
+  position: absolute;
+
+  &._top {
+    font-size: 0px;
+    white-space: nowrap;
+    left: 12px;
+
+    .line_item {
+      display: inline-block;
+    }
+  }
+
+  &._side {
+    font-size: 0px;
+    top:  12px;
+
+    .line_item {
+      display: block;
+    }
+  }
+
+
+
+  .line_item {
+    font-size: 8px;
+    width: 10px;
+    height: 10px;
+    border: 1px solid #ddd;
+    color: #333;
+  }
+}
