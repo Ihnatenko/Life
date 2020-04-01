@@ -4,13 +4,6 @@ body {
   margin: 0;
 }
 
-
-.field {
-  font-size: 0;
-  width: auto;
-  height: auto;
-}
-
 .row {
   width: auto;
   white-space: nowrap;
@@ -35,6 +28,9 @@ body {
   position: relative;
   top:  12px;
   left: 12px;
+  font-size: 0;
+  width: calc(100% - 12px);
+  height: auto;
 }
 
 .wraper {
@@ -63,7 +59,6 @@ body {
       }
     }
 
-
     label {
       display: block;
       margin-bottom: 40px;
@@ -74,11 +69,14 @@ body {
     flex: 1 0;
     overflow: auto;
     height: 100vh;
+    position: relative;
   }
 }
 
 .line {
   position: absolute;
+  z-index: 1;
+  background-color: white;
 
   &._top {
     font-size: 0px;
@@ -98,8 +96,6 @@ body {
       display: block;
     }
   }
-
-
 
   .line_item {
     font-size: 8px;

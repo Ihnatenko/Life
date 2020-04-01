@@ -3,10 +3,11 @@
 'strict mode';
 
 
-let width = 21, height = 21;
+let width = 210, height = 500;
 //
 let matrix = getMatrix(width, height);
 
+const D = document;
 
 let app = new Vue({
   el: "#app",
@@ -16,6 +17,10 @@ let app = new Vue({
     unlim: true,
     disableFields: false,
     matrix: matrix,
+    labelPosition: {
+      top: 0,
+      left: 0
+    }
   },
   methods: {
     hundlerChangeWidth: function(e) {
@@ -38,7 +43,8 @@ let app = new Vue({
       }
     },
     hundlerEditGame: hundlerEditGame,
-    hundlerOneStep: hundlerOneStep
+    hundlerOneStep: hundlerOneStep,
+    hundlerContainerScroll: hundlerContainerScroll
   }
 });
 
@@ -237,4 +243,13 @@ function hundlerEditGame(e) {
 
 function hundlerOneStep(e) {
   runOneItetationGame(app);
+}
+
+var a;
+
+function hundlerContainerScroll(e) {
+  console.log(this);
+  a = this;
+  this.labelPosition.top  = e.originalTarget.scrollTop;
+  this.labelPosition.left = e.originalTarget.scrollLeft;
 }

@@ -7,19 +7,18 @@
   </head>
   <body>
     <div class="wraper" id="app">
-      <div class="container">
-        <div class="line _top">
+      <div class="container" @scroll="hundlerContainerScroll">
+        <div class="line _top" id="label_top" v-bind:style="{ top: labelPosition.top + 'px',}">
           <div class="line_item" v-for="(row, index) in matrix[0]">
             {{index + 1}}
           </div>
         </div>
-        <div class="line _side">
+        <div class="line _side" id="label_left" v-bind:style="{ left: labelPosition.left + 'px',}">
           <div class="line_item" v-for="(row, index) in matrix">
             {{index + 1}}
           </div>
         </div>
         <div class="field" @click="hundlerEditGame">
-
           <div class="row" v-for="row in matrix">
             <div class="cell"
                  v-bind:class="{ active: cell, disactive: !cell }"
