@@ -66,6 +66,15 @@
                    value="+1"
                    v-on:click="hundlerOneStep">
           </label>
+          <label>
+            <span>Відключити межі</span>
+            <input type="checkbox"
+                   name="unlim"
+                   v-model="unlim"
+                   v-on:change="hundlerLimits">
+          </label>
+
+
 
           <!-- <label>
             <span>Вибрати патерн</span>

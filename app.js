@@ -3,7 +3,7 @@
 'strict mode';
 
 
-let width = 210, height = 500;
+let width = 100, height = 50;
 //
 let matrix = getMatrix(width, height);
 
@@ -44,7 +44,8 @@ let app = new Vue({
     },
     hundlerEditGame: hundlerEditGame,
     hundlerOneStep: hundlerOneStep,
-    hundlerContainerScroll: hundlerContainerScroll
+    hundlerContainerScroll: hundlerContainerScroll,
+    hundlerLimits: hundlerLimits
   }
 });
 
@@ -112,6 +113,9 @@ function getMatrix(width, height) {
 
 
 function getNumberNeighbor(matrix, y, x, type) {
+
+  // console.log(type);
+
   let max_x = matrix[0].length - 1;
   let max_y = matrix.length - 1;
 
@@ -245,11 +249,12 @@ function hundlerOneStep(e) {
   runOneItetationGame(app);
 }
 
-var a;
-
 function hundlerContainerScroll(e) {
-  console.log(this);
-  a = this;
   this.labelPosition.top  = e.originalTarget.scrollTop;
   this.labelPosition.left = e.originalTarget.scrollLeft;
+}
+
+function hundlerLimits(e) {
+  // debugger;
+  this.unlim = e.originalTarget.checked;
 }
