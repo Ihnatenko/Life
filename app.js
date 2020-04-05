@@ -1,22 +1,29 @@
-
-
 'strict mode';
 
 
-let width = 100, height = 50;
-//
-let matrix = getMatrix(width, height);
+const patterns = [
+  [[0]], // Пустота
+  [[0, 0, 0], [0, 1, 1], [0, 1, 1]], // кубики
+  [[1], [0]], // горизонтальні лінії
+  [[1, 0]], // вертикальні лінії
+  [[1, 0], [0, 1]], // шахматний порядок
+];
+
+
 
 const D = document;
 
 let app = new Vue({
   el: "#app",
   data: {
-    width: width,
-    height: height,
+    width: 100,
+    height: 50,
     unlim: true,
     disableFields: false,
-    matrix: matrix,
+    matrix: [],
+    pattern: 1,
+    pat_x_shift: 0,
+    pat_y_shift: 0,
     labelPosition: {
       top: 0,
       left: 0
@@ -25,11 +32,11 @@ let app = new Vue({
   methods: {
     hundlerChangeWidth: function(e) {
       this.width = e.target.value;
-      this.matrix = getMatrix(this.width, this.height);
+      this.matrix = getMatrix(this);
     },
     hundlerChangeHeight: function(e) {
       this.height = e.target.value;
-      this.matrix = getMatrix(this.width, this.height);
+      this.matrix = getMatrix(app);
     },
     hundlerStop: function(e) {
       let elem = e.target;
@@ -45,10 +52,14 @@ let app = new Vue({
     hundlerEditGame: hundlerEditGame,
     hundlerOneStep: hundlerOneStep,
     hundlerContainerScroll: hundlerContainerScroll,
-    hundlerLimits: hundlerLimits
+    hundlerLimits: hundlerLimits,
+    hundlerPattern: hundlerPattern,
+    hundlerPat_X_Shift: hundlerPat_X_Shift,
+    hundlerPat_Y_Shift: hundlerPat_Y_Shift,
   }
 });
 
+app.matrix = getMatrix(app);
 if(app.disableFields) {
   var timerId = startGame(app);
 }
@@ -58,7 +69,6 @@ if(app.disableFields) {
 // якщо в живої клітини чотири та більше живих сусідів – вона помирає від «перенаселення»;
 // якщо в мертвої клітини рівно три живих сусіди – то вона оживає.
 function startGame(app) {
-
   let timerId = setInterval(() => {
     runOneItetationGame(app);
   }, 100);
@@ -78,7 +88,7 @@ function runOneItetationGame(app) {
           matrix[i][j] = false;
         }
       } else {
-        if(numNeighbor === 3) {
+        if((numNeighbor === 3)) {
           matrix[i][j] = true;
         }
       }
@@ -88,8 +98,11 @@ function runOneItetationGame(app) {
   app.matrix = cloneMatrix(matrix);
 }
 
+function getMatrix(app) {
 
-function getMatrix(width, height) {
+  const width = app.width;
+  const height = app.height;
+  const num_pattern = app.pattern;
 
   let matrix = [];
   let k = 0;
@@ -98,19 +111,21 @@ function getMatrix(width, height) {
 
     matrix[i] = [];
     for(let j = 0; j < width; j++) {
-      matrix[i][j] = !!((j + i)%2);
+      // matrix[i][j] = !!((j + i)%3);
+      matrix[i][j] = false;
       if(k === 3) {
         k = 0;
       } else {
         k++;
       }
     }
-
   }
+
+  // matrix = placeFigure(matrix, [[1, 1, 1],[0, 0, 1],[0,1,0]], 0 , 0);
+  matrix = makePattern(matrix, num_pattern, app.pat_x_shift, app.pat_y_shift, width, height);
 
   return matrix;
 }
-
 
 function getNumberNeighbor(matrix, y, x, type) {
 
@@ -197,7 +212,6 @@ function cloneMatrix(matrix) {
   return cloneMatrixV;
 }
 
-
 function hundlerEditGame(e) {
   let cell = e.target;
 
@@ -257,4 +271,66 @@ function hundlerContainerScroll(e) {
 function hundlerLimits(e) {
   // debugger;
   this.unlim = e.originalTarget.checked;
+}
+
+function placeFigure(matrix, figure, x , y, width, height) {
+
+  figure.map((row_figure, x_item)=>{
+    row_figure.map((item_figure, y_item)=>{
+
+      if(((x_item + x) < 0) || ((x_item + x + 1) > width)) {
+        return;
+      }
+      if(((y_item + y) < 0) || ((y_item + y + 1) > height)) {
+        return;
+      }
+
+      matrix[y_item + y][x_item + x] = item_figure;
+    });
+  })
+
+  return matrix;
+}
+
+function makePattern(matrix, num_pattern, x_shift, y_shift, width, height) {
+
+  const pattern = patterns[num_pattern];
+  // const width   = app.width;
+  // const height  = app.height;
+
+  const pattern_heigth = pattern.length;
+  const pattern_width  = pattern[0].length;
+
+  x_shift = x_shift % pattern_width;
+  y_shift = y_shift % pattern_heigth;
+
+  let j = j_start = x_shift - pattern_width;
+  let i = y_shift - pattern_heigth;
+  while(i < height) {
+    j = x_shift - pattern_width;
+    while(j < width) {
+      matrix = placeFigure(matrix, pattern, j, i, width, height);
+      j += pattern_width;
+    }
+    i += pattern_heigth;
+  }
+
+  return matrix;
+
+}
+
+function hundlerPattern(e) {
+  this.pattern = e.target.value;
+  this.matrix = getMatrix(app);
+  console.log(e.target.value);
+}
+
+function hundlerPat_X_Shift(e) {
+  this.pat_x_shift = e.target.value;
+  this.matrix = getMatrix(this);
+}
+
+function hundlerPat_Y_Shift(e) {
+  this.pat_y_shift = e.target.value;
+  this.matrix = getMatrix(this);
 }

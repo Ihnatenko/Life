@@ -58,7 +58,6 @@
                    v-bind="{ readonly: disableFields }"
                    v-on:change="hundlerChangeHeight">
           </label>
-
           <label>
             <span>Один крок</span>
             <input type="button"
@@ -73,18 +72,32 @@
                    v-model="unlim"
                    v-on:change="hundlerLimits">
           </label>
-
-
-
-          <!-- <label>
+          <label>
             <span>Вибрати патерн</span>
-            <select type="button"
-                   name="one_step"
-                   @change="hundlerPatern">
-              <option></
+            <select name="pattern"
+                    v-on:change="hundlerPattern"
+            >
+              <option value="0">Пустота</option>
+              <option value="1">Кубики</option>
+              <option value="2">Горизонтальні лінії</option>
+              <option value="3">Вертикальні лінії</option>
+              <option value="4">Шахматний порядок</option>
             </select>
-          </label> -->
-
+          </label>
+          <label>
+            <span>Зміщення патерна по горизонталі</span>
+            <input type="number"
+                   name="pat_x_shift"
+                   v-model="pat_x_shift"
+                   v-on:change="hundlerPat_X_Shift">
+          </label>
+          <label>
+            <span>Зміщення патерна по вертикалі</span>
+            <input type="number"
+                   name="pat_y_shift"
+                   v-model="pat_y_shift"
+                   v-on:change="hundlerPat_Y_Shift">
+          </label>
         </div>
       </fieldset>
     </div>
