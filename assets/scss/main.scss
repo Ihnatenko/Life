@@ -16,11 +16,20 @@ body {
 
     &.active {
       background-color: black;
+
+      &.visual {
+        background-color: #555;
+      }
     }
 
     &.disactive {
       background-color: white;
+
+      &.visual {
+        background-color: #aaa;
+      }
     }
+
   }
 }
 

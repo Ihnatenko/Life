@@ -9,6 +9,12 @@ const patterns = [
   [[1, 0], [0, 1]], // шахматний порядок
 ];
 
+const figures = [
+  [[1, 1], [1, 1]],
+  [[0, 1, 1], [1, 1, 0], [0, 1, 0]],
+  [[0, 1, 0], [0, 0, 1], [1, 1, 1]],
+];
+
 
 
 const D = document;
@@ -16,18 +22,29 @@ const D = document;
 let app = new Vue({
   el: "#app",
   data: {
+    matrix: [],
+
     width: 100,
     height: 50,
     unlim: true,
     disableFields: false,
-    matrix: [],
-    pattern: 1,
+
+    pattern: 0,
     pat_x_shift: 0,
     pat_y_shift: 0,
+
+    moveFigureStatus: false,
+    moveFigure: figures[0],
+    selectedFigure: 0,
+    figurePosition: {
+      top: 0,
+      left: 0,
+    },
+
     labelPosition: {
       top: 0,
       left: 0
-    }
+    },
   },
   methods: {
     hundlerChangeWidth: function(e) {
@@ -56,6 +73,10 @@ let app = new Vue({
     hundlerPattern: hundlerPattern,
     hundlerPat_X_Shift: hundlerPat_X_Shift,
     hundlerPat_Y_Shift: hundlerPat_Y_Shift,
+    hundlerFigure: hundlerFigure,
+    hundlerSelectfigure: hundlerSelectfigure,
+    hundlerMousemove: hundlerMousemove,
+    hundlerWheel: hundlerWheel,
   }
 });
 
@@ -83,13 +104,13 @@ function runOneItetationGame(app) {
     row.forEach((cell, j)=>{
       let numNeighbor = getNumberNeighbor(app.matrix, i, j, app.unlim);
 
-      if(app.matrix[i][j]) {
+      if(app.matrix[i][j].life) {
         if((numNeighbor !== 2) && (numNeighbor !== 3)) {
-          matrix[i][j] = false;
+          matrix[i][j].life = false;
         }
       } else {
         if((numNeighbor === 3)) {
-          matrix[i][j] = true;
+          matrix[i][j].life = true;
         }
       }
     });
@@ -112,7 +133,9 @@ function getMatrix(app) {
     matrix[i] = [];
     for(let j = 0; j < width; j++) {
       // matrix[i][j] = !!((j + i)%3);
-      matrix[i][j] = false;
+      matrix[i][j] = {};
+      matrix[i][j].life = false;
+      matrix[i][j].visual = false;
       if(k === 3) {
         k = 0;
       } else {
@@ -121,7 +144,6 @@ function getMatrix(app) {
     }
   }
 
-  // matrix = placeFigure(matrix, [[1, 1, 1],[0, 0, 1],[0,1,0]], 0 , 0);
   matrix = makePattern(matrix, num_pattern, app.pat_x_shift, app.pat_y_shift, width, height);
 
   return matrix;
@@ -190,7 +212,7 @@ function getNumberNeighbor(matrix, y, x, type) {
       localY = y + max_y + 1;
     }
 
-    return matrix[localY][localX];
+    return matrix[localY][localX].life;
   }
 }
 
@@ -204,7 +226,9 @@ function cloneMatrix(matrix) {
 
     for(let j = 0; j < matrix[0].length; j++) {
 
-      cloneMatrixV[i][j] = matrix[i][j];
+      cloneMatrixV[i][j] = {};
+      cloneMatrixV[i][j].life = matrix[i][j].life;
+      cloneMatrixV[i][j].visual = matrix[i][j].visual;
 
     }
   }
@@ -219,19 +243,19 @@ function hundlerEditGame(e) {
     return;
   }
 
+  // Якщо клік не на клітинку - виходим
   if(!cell.classList.contains("cell")) {
     return;
   }
 
   let corTarget = index(cell);
 
-  let currentStatus = this.matrix[corTarget[0]][corTarget[1]];
-
-  this.matrix[corTarget[0]][corTarget[1]] = !currentStatus;
-
-  let matrix = this.matrix;
-  this.matrix = 0;
-  this.matrix = matrix;
+  if(this.moveFigureStatus) {
+    remakeVisualToLife(this);
+  } else {
+    let currentStatus = this.matrix[corTarget[0]][corTarget[1]].life;
+    this.matrix[corTarget[0]][corTarget[1]].life = !currentStatus;
+  }
 
   function index(cell) {
     let row = cell.parentElement;
@@ -257,10 +281,56 @@ function hundlerEditGame(e) {
     return [index, jndex];
   }
 
+  function remakeVisualToLife(app) {
+    app.matrix.forEach((row)=>{
+      row.forEach((cell)=>{
+        if(cell.visual) {
+          cell.life = true;
+        }
+      });
+    });
+  }
+
 }
 
 function hundlerOneStep(e) {
   runOneItetationGame(app);
+}
+
+function hundlerWheel(e) {
+  // debugger;
+  routeFigure(this, 1);
+
+  function routeFigure(app, direct) {
+    let figure = app.moveFigure;
+    let height = figure.length;
+    let width = figure[0].length;
+    let newFigure = [];
+
+    for (let i = 0; i < width; i++) {
+      newFigure[i] = [];
+      for (let j = 0; j < height; j++) {
+        if(direct) {
+          newFigure[i][j] = figure[height - 1 - j][i];
+        } else {
+          newFigure[i][j] = figure[j][width - 1 - i];
+        }
+      }
+    }
+
+    // app.moveFigure = [];
+    app.moveFigure = newFigure;
+
+    app.matrix = placeFigure(
+      app.matrix,
+      app.moveFigure,
+      app.figurePosition.left,
+      app.figurePosition.top,
+      app.width,
+      app.height,
+      true
+    );
+  }
 }
 
 function hundlerContainerScroll(e) {
@@ -273,9 +343,10 @@ function hundlerLimits(e) {
   this.unlim = e.originalTarget.checked;
 }
 
-function placeFigure(matrix, figure, x , y, width, height) {
+function placeFigure(matrix, figure, x , y, width, height, visual) {
 
   figure.map((row_figure, x_item)=>{
+
     row_figure.map((item_figure, y_item)=>{
 
       if(((x_item + x) < 0) || ((x_item + x + 1) > width)) {
@@ -285,7 +356,11 @@ function placeFigure(matrix, figure, x , y, width, height) {
         return;
       }
 
-      matrix[y_item + y][x_item + x] = item_figure;
+      if(visual) {
+        matrix[y_item + y][x_item + x].visual = item_figure;
+      } else {
+        matrix[y_item + y][x_item + x].life = item_figure;
+      }
     });
   })
 
@@ -322,7 +397,7 @@ function makePattern(matrix, num_pattern, x_shift, y_shift, width, height) {
 function hundlerPattern(e) {
   this.pattern = e.target.value;
   this.matrix = getMatrix(app);
-  console.log(e.target.value);
+
 }
 
 function hundlerPat_X_Shift(e) {
@@ -333,4 +408,46 @@ function hundlerPat_X_Shift(e) {
 function hundlerPat_Y_Shift(e) {
   this.pat_y_shift = e.target.value;
   this.matrix = getMatrix(this);
+}
+
+function hundlerFigure(e) {
+  this.moveFigureStatus = true;
+  this.moveFigure = figures[e.target.value];
+}
+
+function hundlerSelectfigure(e) {
+  this.selectedFigure = e.target.value;
+}
+
+function hundlerMousemove(e) {
+
+  if(app.moveFigureStatus) {
+    const x = index(e.target) - 1;
+    const y = index(e.target.parentElement) - 1;
+
+    app.figurePosition = {top: y, left: x};
+    app.matrix = clearVisual(app.matrix);
+    app.matrix = placeFigure(app.matrix, this.moveFigure, x , y, app.width, app.height, true);
+
+  }
+
+  function index(el) {
+    if (!el) return -1;
+    var i = 0;
+    do {
+      i++;
+    } while (el = el.previousElementSibling);
+    return i;
+  }
+
+  function clearVisual(matrix) {
+    matrix.forEach((row) => {
+      row.forEach((item) => {
+        item.visual = false;
+      })
+    });
+
+    return matrix;
+  }
+
 }

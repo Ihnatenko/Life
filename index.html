@@ -7,7 +7,7 @@
   </head>
   <body>
     <div class="wraper" id="app">
-      <div class="container" @scroll="hundlerContainerScroll">
+      <div class="container" @scroll="hundlerContainerScroll" v-on:wheel="hundlerWheel">
         <div class="line _top" id="label_top" v-bind:style="{ top: labelPosition.top + 'px',}">
           <div class="line_item" v-for="(row, index) in matrix[0]">
             {{index + 1}}
@@ -18,10 +18,10 @@
             {{index + 1}}
           </div>
         </div>
-        <div class="field" @click="hundlerEditGame">
+        <div class="field" @click="hundlerEditGame" v-on:mousemove="hundlerMousemove">
           <div class="row" v-for="row in matrix">
             <div class="cell"
-                 v-bind:class="{ active: cell, disactive: !cell }"
+                 v-bind:class="{ active: cell.life, disactive: !cell.life, visual: cell.visual }"
                  v-for="cell in row">
             </div>
           </div>
@@ -97,6 +97,25 @@
                    name="pat_y_shift"
                    v-model="pat_y_shift"
                    v-on:change="hundlerPat_Y_Shift">
+          </label>
+
+          <label>
+            <span>Вибрати фігуру</span>
+            <select name="figure"
+                    v-on:change="hundlerFigure"
+            >
+              <option value="0">Кубик</option>
+              <option value="1">Бомба</option>
+              <option value="2">Планер</option>
+              <option value="3">Вулик</option>
+            </select>
+          </label>
+          <label>
+            <span>Розмістити фігуру</span>
+            <input type="checkbox"
+                   name="stop"
+                   value="checked"
+                   v-model="moveFigureStatus">
           </label>
         </div>
       </fieldset>
