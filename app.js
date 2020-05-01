@@ -13,6 +13,80 @@ const figures = [
   [[1, 1], [1, 1]],
   [[0, 1, 1], [1, 1, 0], [0, 1, 0]],
   [[0, 1, 0], [0, 0, 1], [1, 1, 1]],
+  [[0, 1, 1, 0], [1, 0, 0, 1], [0, 1, 1, 0]], //вулик
+  [[0, 1, 0], [1, 1, 1]], //тетрамино
+  [[0, 1, 1, 0], [1, 0, 0, 1], [0, 1, 0, 1], [0, 0, 1, 0]], //каравай
+  [[0, 1, 1, 0], [1, 0, 0, 1], [1, 0, 0, 1], [0, 1, 1, 0]], //пруд
+  [[0, 1, 0], [1, 0, 1], [0, 1, 0]], //ящик
+  [[1, 0, 1, 1], [1, 1, 0, 1]], //змея
+  [[0, 1, 0, 0], [1, 0, 1, 0], [0, 1, 0, 1], [0, 0, 1, 0]], //баржа
+  [[0, 1, 0], [1, 0, 1], [0, 1, 1]], //лодка
+  [[1, 1, 0], [1, 0, 1], [0, 1, 1]], //корабль
+  [[0, 1, 0, 0, 0], [1, 0, 1, 0, 0], [0, 1, 0, 1, 0], [0, 0, 1, 0, 1], [0, 0, 0, 1, 0]], //длинная баржа
+  [[0, 1, 0, 0], [1, 0, 1, 0], [0, 1, 0, 1], [0, 0, 1, 1]], //длинная лодка
+  [[1, 1, 0, 0], [1, 0, 1, 0], [0, 1, 0, 1], [0, 0, 1, 1]], //длинний корабль
+
+  [[0, 0, 1, 0], [1, 1, 0, 0], [0, 0, 1, 1], [0, 1, 0, 0]], //вертушка
+  [[0, 1, 1, 1], [1, 1, 1, 0]], //жаба
+  [[0, 0, 1, 1], [0, 0, 1, 1], [1, 1, 0, 0], [1, 1, 0, 0]], //бакен
+  [
+    [0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0],
+    [1, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0],
+    [1, 1, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 1, 1],
+    [0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1],
+    [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0],
+  ], //часи
+  [
+    [0, 1, 1, 0, 0],
+    [1, 1, 1, 1, 0],
+    [1, 1, 0, 1, 1],
+    [0, 0, 1, 1, 0]
+  ], //малий космічний корабль
+  [
+    [0, 1, 1, 1, 0, 0],
+    [1, 1, 1, 1, 1, 0],
+    [1, 1, 1, 0, 1, 1],
+    [0, 0, 0, 1, 1, 0]
+  ], //середній космічний корабль
+  [
+    [0, 1, 1, 1, 1, 0, 0],
+    [1, 1, 1, 1, 1, 1, 0],
+    [1, 1, 1, 1, 0, 1, 1],
+    [0, 0, 0, 0, 1, 1, 0]
+  ], //великий космічний корабль
+  [
+    [0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1],
+    [0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0],
+    [1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0],
+  ], //пульсар
+  [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1],
+    [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  ], //Планерна рушниця
 ];
 
 
@@ -24,10 +98,11 @@ let app = new Vue({
   data: {
     matrix: [],
 
+    stop: true,
+
     width: 100,
     height: 50,
     unlim: true,
-    disableFields: false,
 
     pattern: 0,
     pat_x_shift: 0,
@@ -55,17 +130,6 @@ let app = new Vue({
       this.height = e.target.value;
       this.matrix = getMatrix(app);
     },
-    hundlerStop: function(e) {
-      let elem = e.target;
-
-      if(elem.checked) {
-        clearInterval(timerId);
-        this.disableFields = false;
-      } else {
-        timerId = startGame(this);
-        this.disableFields = true;
-      }
-    },
     hundlerEditGame: hundlerEditGame,
     hundlerOneStep: hundlerOneStep,
     hundlerContainerScroll: hundlerContainerScroll,
@@ -81,24 +145,27 @@ let app = new Vue({
 });
 
 app.matrix = getMatrix(app);
-if(app.disableFields) {
-  var timerId = startGame(app);
-}
+startGame(app);
+// if(app.disableFields) {
+//   var timerId = startGame(app);
+// }
 
 // якщо в живої клітини два чи три живих сусіди – то вона лишається жити;
 // якщо в живої клітини один чи немає живих сусідів – то вона помирає від «самотності»;
 // якщо в живої клітини чотири та більше живих сусідів – вона помирає від «перенаселення»;
 // якщо в мертвої клітини рівно три живих сусіди – то вона оживає.
 function startGame(app) {
-  let timerId = setInterval(() => {
+  setInterval(() => {
     runOneItetationGame(app);
   }, 100);
-
-  return timerId;
 }
 
-function runOneItetationGame(app) {
+function runOneItetationGame(app, force) {
   let matrix = cloneMatrix(app.matrix);
+
+  if(app.stop && !force) {
+    return;
+  }
 
   matrix.forEach((row, i)=>{
     row.forEach((cell, j)=>{
@@ -239,7 +306,7 @@ function cloneMatrix(matrix) {
 function hundlerEditGame(e) {
   let cell = e.target;
 
-  if(this.disableFields) {
+  if(!this.stop) {
     return;
   }
 
@@ -294,7 +361,7 @@ function hundlerEditGame(e) {
 }
 
 function hundlerOneStep(e) {
-  runOneItetationGame(app);
+  runOneItetationGame(app, true);
 }
 
 function hundlerWheel(e) {
@@ -340,7 +407,7 @@ function hundlerContainerScroll(e) {
 
 function hundlerLimits(e) {
   // debugger;
-  this.unlim = e.originalTarget.checked;
+  this.hundlerLimits = e.originalTarget.checked;
 }
 
 function placeFigure(matrix, figure, x , y, width, height, visual) {
@@ -421,14 +488,23 @@ function hundlerSelectfigure(e) {
 
 function hundlerMousemove(e) {
 
+  if(!app.stop) {
+    return;
+  }
+
   if(app.moveFigureStatus) {
+
+    if(!e.target.classList.contains("cell")) {
+      app.matrix = clearVisual(app.matrix);
+      return;
+    }
+
     const x = index(e.target) - 1;
     const y = index(e.target.parentElement) - 1;
 
     app.figurePosition = {top: y, left: x};
     app.matrix = clearVisual(app.matrix);
     app.matrix = placeFigure(app.matrix, this.moveFigure, x , y, app.width, app.height, true);
-
   }
 
   function index(el) {

@@ -3,10 +3,13 @@
   <head>
     <meta charset="utf-8">
     <title>Life</title>
+
+
     <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="lib/uikit/css/uikit.min.css">
   </head>
   <body>
-    <div class="wraper" id="app">
+    <div class="wraper" id="app" v-on:mousemove="hundlerMousemove">
       <div class="container" @scroll="hundlerContainerScroll" v-on:wheel="hundlerWheel">
         <div class="line _top" id="label_top" v-bind:style="{ top: labelPosition.top + 'px',}">
           <div class="line_item" v-for="(row, index) in matrix[0]">
@@ -18,7 +21,7 @@
             {{index + 1}}
           </div>
         </div>
-        <div class="field" @click="hundlerEditGame" v-on:mousemove="hundlerMousemove">
+        <div class="field" @click="hundlerEditGame">
           <div class="row" v-for="row in matrix">
             <div class="cell"
                  v-bind:class="{ active: cell.life, disactive: !cell.life, visual: cell.visual }"
@@ -28,39 +31,38 @@
         </div>
       </div>
       <fieldset class="controls">
+
         <label>
           <span>Зупинити</span>
-          <input type="checkbox"
-                 name="stop"
-                 checked
-                 @change="hundlerStop">
+          <input class="uk-checkbox" type="checkbox" checked v-model="stop">
         </label>
+
         <div id="for_disable"
-             v-bind:class="{ disable: disableFields }">
-          <label>
-            <span>Тип поля</span>
-            <input type="checkbox" name="unlim"
-                   v-bind="{ readonly: disableFields }">
-          </label>
+             v-bind:class="{ disable: !stop }">
           <label>
             <span>Ширина</span>
             <input type="number"
                    name="width"
+                   class="uk-input"
                    v-bind:value="width"
-                   v-bind="{ readonly: disableFields }"
+                   v-bind="{ readonly: !stop }"
                    v-on:change="hundlerChangeWidth">
           </label>
+
           <label>
             <span>Висота</span>
             <input type="number"
                    name="height"
+                   class="uk-input"
                    v-bind:value="height"
-                   v-bind="{ readonly: disableFields }"
+                   v-bind="{ readonly: !stop }"
                    v-on:change="hundlerChangeHeight">
           </label>
+
           <label>
             <span>Один крок</span>
             <input type="button"
+                   class="uk-button"
                    name="one_step"
                    value="+1"
                    v-on:click="hundlerOneStep">
@@ -69,12 +71,12 @@
             <span>Відключити межі</span>
             <input type="checkbox"
                    name="unlim"
-                   v-model="unlim"
-                   v-on:change="hundlerLimits">
+                   class="uk-checkbox"
+                   v-model="unlim">
           </label>
           <label>
             <span>Вибрати патерн</span>
-            <select name="pattern"
+            <select name="pattern" class="uk-select"
                     v-on:change="hundlerPattern"
             >
               <option value="0">Пустота</option>
@@ -89,6 +91,7 @@
             <input type="number"
                    name="pat_x_shift"
                    v-model="pat_x_shift"
+                   class="uk-input"
                    v-on:change="hundlerPat_X_Shift">
           </label>
           <label>
@@ -96,18 +99,42 @@
             <input type="number"
                    name="pat_y_shift"
                    v-model="pat_y_shift"
+                   class="uk-input"
                    v-on:change="hundlerPat_Y_Shift">
           </label>
 
+
           <label>
             <span>Вибрати фігуру</span>
-            <select name="figure"
+            <select name="figure" class="uk-select"
                     v-on:change="hundlerFigure"
             >
               <option value="0">Кубик</option>
               <option value="1">Бомба</option>
               <option value="2">Планер</option>
               <option value="3">Вулик</option>
+              <option value="4">Тетраміно</option>
+              <option value="5">Каравай</option>
+              <option value="6">Колодізь</option>
+              <option value="7">Ящик</option>
+              <option value="8">Змія</option>
+              <option value="9">Баржа</option>
+              <option value="10">Лодка</option>
+              <option value="11">Корабль</option>
+              <option value="12">Довга баржа</option>
+              <option value="13">Довга лодка</option>
+              <option value="14">Довга корабль</option>
+
+              <option value="15">Вертушка</option>
+              <option value="16">Жаба</option>
+              <option value="17">Бакен</option>
+              <option value="18">Часи</option>
+
+              <option value="19">Малий космічний корабль</option>
+              <option value="20">Середній космічний корабль</option>
+              <option value="21">Великий космічний корабль</option>
+              <option value="22">Пульсар</option>
+              <option value="23">Планерна рушниця</option>
             </select>
           </label>
           <label>
@@ -115,6 +142,7 @@
             <input type="checkbox"
                    name="stop"
                    value="checked"
+                   class="uk-checkbox"
                    v-model="moveFigureStatus">
           </label>
         </div>
