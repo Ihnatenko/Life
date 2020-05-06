@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Life</title>
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="lib/uikit/css/uikit.min.css">
@@ -30,9 +30,9 @@
           </div>
         </div>
       </div>
-      <fieldset class="controls">
-
-        <label>
+      <fieldset class="controls" v-bind:class="{mobile_visible: toucheDevice && menuMobile, mobile_hide: toucheDevice && !menuMobile}">
+        <button @click="hundlerCloseMenu">X</button>
+        <label v-bind:class="{display_none: toucheDevice}">
           <span>Зупинити</span>
           <input class="uk-checkbox" type="checkbox" checked v-model="stop">
         </label>
@@ -59,7 +59,7 @@
                    v-on:change="hundlerChangeHeight">
           </label>
 
-          <label>
+          <label v-bind:class="{display_none: toucheDevice}">
             <span>Один крок</span>
             <input type="button"
                    class="uk-button"
@@ -145,6 +145,27 @@
                    class="uk-checkbox"
                    v-model="moveFigureStatus">
           </label>
+        </div>
+      </fieldset>
+      <fieldset class="mobile_controls" v-bind:class="{display_none: !toucheDevice}">
+        <div class="">
+          <label type="button" class="uk-button mob_btn play display_none" name="play">
+            <input type="checkbox" class="display_none" v-model="menuMobile">
+            <span class="_true"></span>
+            <span class="_false"></span>
+          </label>
+          <label type="button" class="uk-button mob_btn play" name="play">
+            <input type="checkbox" class="display_none" v-model="stop">
+            <span class="_true"></span>
+            <span class="_false"></span>
+          </label>
+          <label type="button" class="uk-button mob_btn edit" name="play">
+            <input type="checkbox" class="display_none" v-model="wayEditable">
+            <span class="_true"></span>
+            <span class="_false"></span>
+          </label>
+          <button name="zoom_in">
+          </button>
         </div>
       </fieldset>
     </div>

@@ -96,6 +96,10 @@ const D = document;
 let app = new Vue({
   el: "#app",
   data: {
+    toucheDevice: ("ontouchstart" in document.documentElement),
+    wayEditable: true,
+    menuMobile: false,
+
     matrix: [],
 
     stop: true,
@@ -121,6 +125,7 @@ let app = new Vue({
       left: 0
     },
   },
+
   methods: {
     hundlerChangeWidth: function(e) {
       this.width = e.target.value;
@@ -141,14 +146,13 @@ let app = new Vue({
     hundlerSelectfigure: hundlerSelectfigure,
     hundlerMousemove: hundlerMousemove,
     hundlerWheel: hundlerWheel,
+    hundlerCloseMenu: hundlerCloseMenu,
   }
 });
 
 app.matrix = getMatrix(app);
 startGame(app);
-// if(app.disableFields) {
-//   var timerId = startGame(app);
-// }
+
 
 // якщо в живої клітини два чи три живих сусіди – то вона лишається жити;
 // якщо в живої клітини один чи немає живих сусідів – то вона помирає від «самотності»;
@@ -317,11 +321,20 @@ function hundlerEditGame(e) {
 
   let corTarget = index(cell);
 
-  if(this.moveFigureStatus) {
-    remakeVisualToLife(this);
+
+  if(this.toucheDevice) {
+    if(this.wayEditable) {
+      this.matrix[corTarget[0]][corTarget[1]].life = true;
+    } else {
+      this.matrix[corTarget[0]][corTarget[1]].life = false;
+    }
   } else {
-    let currentStatus = this.matrix[corTarget[0]][corTarget[1]].life;
-    this.matrix[corTarget[0]][corTarget[1]].life = !currentStatus;
+    if(this.moveFigureStatus) {
+      remakeVisualToLife(this);
+    } else {
+      let currentStatus = this.matrix[corTarget[0]][corTarget[1]].life;
+      this.matrix[corTarget[0]][corTarget[1]].life = !currentStatus;
+    }
   }
 
   function index(cell) {
@@ -525,5 +538,8 @@ function hundlerMousemove(e) {
 
     return matrix;
   }
+}
 
+function hundlerCloseMenu() {
+  this.menuMobile = false;
 }

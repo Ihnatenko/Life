@@ -1,7 +1,14 @@
 
+html, body {
+  height: 100%;
+}
 
 body {
   margin: 0;
+}
+
+.display_none {
+  display: none !important;
 }
 
 .row {
@@ -12,7 +19,8 @@ body {
     display: inline-block;
     width: 10px;
     height: 10px;
-    border: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
 
     &.active {
       background-color: black;
@@ -45,11 +53,17 @@ body {
 .wraper {
   display: flex;
   overflow: hidden;
+  height: 100%;
 
   .controls {
-    width: 150px;
+    width: 300px;
     flex: 0 0 auto;
     align-self: flex-start;
+    margin: 0;
+    box-sizing: border-box;
+    overflow: scroll;
+    background-color: white;
+    height:100%;
 
     #for_disable {
       position: relative;
@@ -71,6 +85,22 @@ body {
     label {
       display: block;
       margin-bottom: 40px;
+    }
+
+    &.mobile_hide {
+      position: fixed;
+      height: 100%;
+      top: 0;
+      right: -300px;
+      z-index: 20;
+    }
+
+    &.mobile_visible {
+      position: fixed;
+      height: 100%;
+      top: 0;
+      right: 0px;
+      z-index: 20;
     }
   }
 
@@ -110,7 +140,75 @@ body {
     font-size: 8px;
     width: 10px;
     height: 10px;
-    border: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
     color: #333;
   }
+}
+
+.mobile_controls {
+  border: none;
+  width: 60px;
+  height: 100%;
+  background-color: tomato;
+  // position: fixed;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.mob_btn:not(#ForPriority) {
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  padding: 4px;
+
+  span {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+  }
+
+  &.play {
+    ._true {
+      background-image: url(../icons/play.svg);
+    }
+
+    ._false {
+      background-image: url(../icons/stop.svg);
+    }
+
+    input[type=checkbox]:not(:checked) ~ ._true {
+      display: none;
+    }
+
+    input[type=checkbox]:checked ~ ._false {
+      display: none;
+    }
+  }
+
+  &.edit {
+    ._true {
+      background-image: url(../icons/erase.svg);
+    }
+
+    ._false {
+      background-image: url(../icons/set.svg);
+    }
+
+    input[type=checkbox]:not(:checked) ~ ._true {
+      display: none;
+    }
+
+    input[type=checkbox]:checked ~ ._false {
+      display: none;
+    }
+  }
+
+
+
 }
