@@ -100,6 +100,9 @@ let app = new Vue({
     wayEditable: true,
     menuMobile: false,
 
+
+    zoom: 1,
+
     matrix: [],
 
     stop: true,
@@ -147,6 +150,8 @@ let app = new Vue({
     hundlerMousemove: hundlerMousemove,
     hundlerWheel: hundlerWheel,
     hundlerCloseMenu: hundlerCloseMenu,
+    hundlerZoomIn: hundlerZoomIn,
+    hundlerZoomOut: hundlerZoomOut,
   }
 });
 
@@ -414,13 +419,13 @@ function hundlerWheel(e) {
 }
 
 function hundlerContainerScroll(e) {
-  this.labelPosition.top  = e.originalTarget.scrollTop;
-  this.labelPosition.left = e.originalTarget.scrollLeft;
+  this.labelPosition.top  = e.target.scrollTop;
+  this.labelPosition.left = e.target.scrollLeft;
 }
 
 function hundlerLimits(e) {
   // debugger;
-  this.hundlerLimits = e.originalTarget.checked;
+  this.hundlerLimits = e.target.checked;
 }
 
 function placeFigure(matrix, figure, x , y, width, height, visual) {
@@ -542,4 +547,24 @@ function hundlerMousemove(e) {
 
 function hundlerCloseMenu() {
   this.menuMobile = false;
+}
+
+function hundlerZoomIn(e) {
+  let zoom = this.zoom;
+  if(zoom*1.1 < 3) {
+    this.zoom = zoom*1.1;
+  }
+  setZoom(zoom);
+}
+
+function hundlerZoomOut(e) {
+  let zoom = this.zoom;
+  if(zoom*1.1 > 0.4) {
+    this.zoom = zoom/1.1;
+  }
+  // setZoom(zoom);
+}
+
+function setZoom(zoom) {
+  document.getElementsByTagName('html')[0].style.fontSize = zoom + "px";
 }
