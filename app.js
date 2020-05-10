@@ -92,6 +92,7 @@ const figures = [
 
 
 const D = document;
+const vertical = checkVertical();
 
 let app = new Vue({
   el: "#app",
@@ -99,7 +100,7 @@ let app = new Vue({
     toucheDevice: ("ontouchstart" in document.documentElement),
     wayEditable: true,
     menuMobile: false,
-
+    vertical: vertical,
 
     zoom: 1,
 
@@ -152,6 +153,7 @@ let app = new Vue({
     hundlerCloseMenu: hundlerCloseMenu,
     hundlerZoomIn: hundlerZoomIn,
     hundlerZoomOut: hundlerZoomOut,
+    hundlerOpenSettings: hundlerOpenSettings,
   }
 });
 
@@ -554,7 +556,7 @@ function hundlerZoomIn(e) {
   if(zoom*1.1 < 3) {
     this.zoom = zoom*1.1;
   }
-  setZoom(zoom);
+  // setZoom(zoom);
 }
 
 function hundlerZoomOut(e) {
@@ -567,4 +569,12 @@ function hundlerZoomOut(e) {
 
 function setZoom(zoom) {
   document.getElementsByTagName('html')[0].style.fontSize = zoom + "px";
+}
+
+function hundlerOpenSettings() {
+  this.menuMobile = true;
+}
+
+function checkVertical(){
+  return window.innerWidth < window.innerHeight;
 }

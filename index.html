@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="lib/uikit/css/uikit.min.css">
   </head>
   <body>
-    <div class="wraper" id="app" v-on:mousemove="hundlerMousemove">
+    <div class="wraper" id="app" v-on:mousemove="hundlerMousemove" v-bind:class="{toucheDevice: toucheDevice, vertical: vertical}">
       <div class="container" @scroll="hundlerContainerScroll" v-on:wheel="hundlerWheel" v-bind:style="{ zoom: zoom }">
         <div class="line _top" id="label_top" v-bind:style="{ top: labelPosition.top + 'px',}">
           <div class="line_item" v-for="(row, index) in matrix[0]">
@@ -24,14 +24,16 @@
         <div class="field" @click="hundlerEditGame">
           <div class="row" v-for="row in matrix">
             <div class="cell"
-            v-bind:class="{ active: cell.life, disactive: !cell.life, visual: cell.visual }"
-            v-for="cell in row">
+              v-bind:class="{ active: cell.life, disactive: !cell.life, visual: cell.visual }"
+              v-for="cell in row">
+            </div>
           </div>
         </div>
       </div>
-    </div>
-      <fieldset class="controls" v-bind:class="{mobile_visible: toucheDevice && menuMobile, mobile_hide: toucheDevice && !menuMobile}">
-        <button @click="hundlerCloseMenu" v-bind:class="{display_none: !toucheDevice}">X</button>
+      <fieldset class="controls" v-bind:class="{mobile_visible: menuMobile, mobile_hide: !menuMobile}">
+        <button @click="hundlerCloseMenu" class="close_controls">
+          <span></span>
+        </button>
         <label v-bind:class="{display_none: toucheDevice}">
           <span>Зупинити</span>
           <input class="uk-checkbox" type="checkbox" checked v-model="stop">
@@ -149,11 +151,6 @@
       </fieldset>
       <fieldset class="mobile_controls" v-bind:class="{display_none: !toucheDevice}">
           <div class="mobile_controls_inner">
-            <label type="button" class="uk-button mob_btn play display_none" name="play">
-              <input type="checkbox" class="display_none" v-model="menuMobile">
-              <span class="_true"></span>
-              <span class="_false"></span>
-            </label>
             <label type="button" class="uk-button mob_btn play" name="play">
               <input type="checkbox" class="display_none" v-model="stop">
               <span class="_true"></span>
@@ -168,6 +165,9 @@
               <span></span>
             </button>
             <button name="zoom_out" class="mob_btn zoom_out" @click="hundlerZoomOut">
+              <span></span>
+            </button>
+            <button name="settings" class="mob_btn setting" @click="hundlerOpenSettings">
               <span></span>
             </button>
           </div>
